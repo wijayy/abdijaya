@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('baju', function (Blueprint $table) {
             $table->id();
-            $table->string("nama")->nullable();
-            $table->string('slug')->unique()->nullable();
+            $table->string("nama");
+            $table->string('slug')->unique();
             $table->string("image")->nullable();
-            $table->string("ukuran")->nullable();
-            $table->string("warna")->nullable();
+            $table->string("ukuran");
+            $table->string("warna");
             $table->timestamps();
         });
     }

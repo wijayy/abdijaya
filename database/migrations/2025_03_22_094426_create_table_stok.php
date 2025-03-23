@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("ukuran")->nullable();
             $table->string("warna")->nullable();
             $table->integer("qty")->nullable();
+            $table->integer("harga")->nullable();
             $table->timestamps();
 
             $table->foreign('produk_id')->references('id')->on('baju')->onDelete('cascade');

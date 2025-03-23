@@ -15,7 +15,8 @@ class Stok extends Model
         'produk_id',
         'ukuran',
         'warna',
-        'qty'
+        'qty',
+        'harga',
     ];
 
     /**

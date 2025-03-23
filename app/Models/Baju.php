@@ -33,4 +33,8 @@ class Baju extends Model
             }
         });
     }
+    public function stoks()
+    {
+        return $this->hasMany(Stok::class, 'produk_id', 'id');
+    }
 }
