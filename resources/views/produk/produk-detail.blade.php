@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-200">Informasi Produk</h3>
+                <h3 class="text-xl text-center font-bold text-gray-900 dark:text-gray-200">Informasi Produk</h3>
                 <div class="mt-4 text-gray-900 dark:text-gray-200">
                     <p><strong>Nama:</strong> {{ $produk->nama }}</p>
                     <p><strong>Ukuran:</strong> {{ $produk->ukuran }}</p>

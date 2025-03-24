@@ -14,7 +14,7 @@
             @endif
             <div class="relative overflow-x-auto">
                 <a href="{{ route('produk.tambah') }}">
-                    <button class="bg-gray dark:bg-white overflow-hidden shadow-xl sm:rounded-lg px-6 py-2 mb-4">
+                    <button class="bg-[#229799] text-white dark:bg-white dark:text-gray-800 overflow-hidden font-bold sm:rounded-lg px-6 py-2 mb-4">
                         Tambah Produk
                     </button>
                 </a>
