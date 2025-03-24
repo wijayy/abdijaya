@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('produk_history', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("produk_id");
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->text("message")->nullable();
 
             $table->foreign('produk_id')->references('id')->on('baju')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

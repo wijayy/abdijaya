@@ -1,23 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('History') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
             <div class="relative overflow-x-auto">
-                <a href="{{ route('produk.tambah') }}">
-                    <button class="bg-gray dark:bg-white overflow-hidden shadow-xl sm:rounded-lg px-6 py-2 mb-4">
-                        Tambah Produk
-                    </button>
-                </a>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -28,49 +18,33 @@
                                 Produk
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Ukuran
+                                User
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Warna
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Aksi
+                                Message
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($produks as $index => $produk)
+                        @foreach ($histories as $index => $history)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $index + 1 }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $produk->nama }}
+                                {{ $history->baju->nama }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $produk->ukuran }}
+                                {{ $history->user ? $history->user->name : 'Deleted User' }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $produk->warna }}
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('produk.edit', $produk->id) }}" class="text-blue-600 hover:text-blue-900">Edit</a>
-                                <a href="{{ route('produk.show', $produk->id) }}" class="text-green-600 hover:text-green-900">| Detail |</a>
-                                <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')" class="text-red-600 hover:text-red-900">
-                                        Hapus
-                                    </button>
-                                </form>
+                                {{ $history->message }}
                             </td>
                         </tr>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 </x-app-layout>
