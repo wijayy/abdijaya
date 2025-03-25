@@ -42,21 +42,23 @@
                         </button>
                     </x-slot>
 
-                    <x-slot name="content" class="bg-white dark:bg-white">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')" class="text-red-500"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                    <x-slot name="content">
+                        <div class="bg-white dark:bg-white">
+                            <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
                             </x-dropdown-link>
-                        </form>
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-dropdown-link :href="route('logout')" class="text-red-500"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        </div>
                     </x-slot>
                 </x-dropdown>
             </div>
