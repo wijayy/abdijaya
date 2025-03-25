@@ -4,7 +4,7 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div>
-            <h1 class="font-bold text-center text-2xl mb-8 dark:text-white">Selamat Datang</h1>
+            <h1 class="font-bold text-center text-2xl mb-8">Selamat Datang</h1>
         </div>
 
         <!-- Email Address -->

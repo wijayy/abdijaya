@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tambah User') }}
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <form action="{{ route('users.store') }}" method="POST">
                     @csrf
                     <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama</label>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
                             <input
                                 type="text"
                                 name="name"
@@ -25,7 +25,7 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -39,7 +39,7 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                             <input
                                 type="password"
                                 name="password"
@@ -52,7 +52,7 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Role</label>
+                            <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
                             <select
                                 name="role"
                                 id="role"

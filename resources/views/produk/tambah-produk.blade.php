@@ -1,58 +1,62 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tambah Produk') }}
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                         <div>
-                            <label for="nama" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama Produk</label>
+                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Produk</label>
                             <input
                                 type="text"
                                 name="nama"
                                 id="nama"
                                 autocomplete="off"
                                 value="{{ old('nama') }}"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 required>
                             @error('nama')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </div>
                         <div>
-                            <label for="ukuran" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Ukuran</label>
+                            <label for="ukuran" class="block text-sm font-medium text-gray-700">Ukuran</label>
                             <input
                                 type="text"
                                 name="ukuran"
                                 id="ukuran"
                                 autocomplete="off"
                                 value="{{ old('ukuran') }}"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                placeholder="Masukkan semua ukuran, pisahkan dengan tanda koma.  Ex: L, XL"
+                                required>
                             @error('ukuran')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </div>
                         <div>
-                            <label for="warna" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Warna</label>
+                            <label for="warna" class="block text-sm font-medium text-gray-700">Warna</label>
                             <input
                                 type="text"
                                 name="warna"
                                 id="warna"
                                 autocomplete="off"
                                 value="{{ old('warna') }}"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                placeholder="Masukkan semua warna, pisahkan dengan tanda koma. Ex: merah, putih"
+                                required>
                             @error('warna')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </div>
                         <div>
-                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Gambar</label>
-                            <input type="file" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block bg-white w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage(event)">
+                            <label for="image" class="block text-sm font-medium text-gray-700">Gambar</label>
+                            <input type="file" name="image" id="image" class="mt-1 focus:ring-secondary focus:border-secondary block bg-white w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage(event)">
                             @error('image')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
@@ -65,15 +69,15 @@
                     <!-- Checkbox for quantity -->
                     <div class="mt-4">
                         <input type="checkbox" id="apply_all_stock_checkbox" class="mr-2">
-                        <label for="apply_all_stock_checkbox" class="text-sm font-medium text-gray-700 dark:text-gray-200">Terapkan Qty pada Semua Varian</label>
-                        <input type="number" id="apply_all_stock" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hidden">
+                        <label for="apply_all_stock_checkbox" class="text-sm font-medium text-gray-700">Terapkan Qty pada Semua Varian</label>
+                        <input type="number" id="apply_all_stock" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hidden">
                     </div>
 
                     <!-- Checkbox for price -->
                     <div class="mt-4">
                         <input type="checkbox" id="apply_all_price_checkbox" class="mr-2">
-                        <label for="apply_all_price_checkbox" class="text-sm font-medium text-gray-700 dark:text-gray-200">Terapkan Harga pada Semua Varian</label>
-                        <input type="number" id="apply_all_price" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hidden">
+                        <label for="apply_all_price_checkbox" class="text-sm font-medium text-gray-700">Terapkan Harga pada Semua Varian</label>
+                        <input type="number" id="apply_all_price" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hidden">
                     </div>
 
                     <!-- Additional Field -->
@@ -103,20 +107,20 @@
                     if (size && color) {
                         container.innerHTML += `
                             <div>
-                                <label for="size_${size}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Size (${size})</label>
-                                <input type="text" name="size_${size}" id="size_${size}" value="${size}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" readonly>
+                                <label for="size_${size}" class="block text-sm font-medium text-gray-700">Size (${size})</label>
+                                <input type="text" name="size_${size}" id="size_${size}" value="${size}" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" readonly>
                             </div>
                             <div>
-                                <label for="color_${color}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Warna</label>
-                                <input type="text" name="color_${color}" id="color_${color}" value="${color}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" readonly>
+                                <label for="color_${color}" class="block text-sm font-medium text-gray-700">Warna</label>
+                                <input type="text" name="color_${color}" id="color_${color}" value="${color}" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" readonly>
                             </div>
                             <div>
-                                <label for="qty_${size}_${color}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Qty (${size} - ${color})</label>
-                                <input type="number" name="qty_${size}_${color}" id="qty_${size}_${color}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <label for="qty_${size}_${color}" class="block text-sm font-medium text-gray-700">Qty (${size} - ${color})</label>
+                                <input type="number" name="qty_${size}_${color}" id="qty_${size}_${color}" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                             </div>
-                            <div>
-                                <label for="harga_${size}_${color}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Harga (${size} - ${color})</label>
-                                <input type="number" name="harga_${size}_${color}" id="harga_${size}_${color}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <div class="border-b-2 border-secondary sm:border-none pb-6 sm:pb-0">
+                                <label for="harga_${size}_${color}" class="block text-sm font-medium text-gray-70">Harga (${size} - ${color})</label>
+                                <input type="number" name="harga_${size}_${color}" id="harga_${size}_${color}" class="mt-1 focus:ring-secondary focus:border-secondary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                             </div>
                         `;
                     }
@@ -169,7 +173,7 @@
 
         function previewImage(event) {
             const reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function() {
                 const output = document.getElementById('image-preview');
                 output.src = reader.result;
             };
