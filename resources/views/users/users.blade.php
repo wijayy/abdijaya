@@ -12,6 +12,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="bg-red-700 text-white p-4 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="relative overflow-x-auto">
                 <a href="{{ route('users.create') }}">
                     <button class="bg-secondary text-white overflow-hidden font-bold sm:rounded-lg px-6 py-2 mb-4">

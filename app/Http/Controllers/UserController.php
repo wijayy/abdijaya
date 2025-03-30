@@ -42,6 +42,11 @@ class UserController extends Controller
 
     public function destroy($id) {
         $user = User::findOrFail($id);
+
+        if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
+            return redirect()->route('users')->with('error', 'Cannot delete the last admin account.');
+        }
+
         $user->delete();
 
         return redirect()->route('users')->with('success', 'User deleted successfully.');

@@ -95,28 +95,29 @@ class ProdukController extends Controller
         $baju = Baju::findOrFail($id);
         $changes = [];
 
-        if ($baju->nama != $request->nama) {
+        // Cek perubahan nama, ukuran, warna
+        if ($baju->nama !== $request->nama) {
             $changes[] = "Nama dari '{$baju->nama}' menjadi '{$request->nama}'";
         }
-        if ($baju->ukuran != $request->ukuran) {
+        if ($baju->ukuran !== $request->ukuran) {
             $changes[] = "Ukuran dari '{$baju->ukuran}' menjadi '{$request->ukuran}'";
         }
-        if ($baju->warna != $request->warna) {
+        if ($baju->warna !== $request->warna) {
             $changes[] = "Warna dari '{$baju->warna}' menjadi '{$request->warna}'";
         }
-        if ($request->file('gambar')) {
-            $changes[] = "Gambar diperbarui";
-        }
-        
-        if ($baju->image && $request->hasFile('image')) {
-            Storage::disk('public')->delete($baju->image);
-        }
 
-        $path = $baju->image;
+        // Cek perubahan gambar
         if ($request->hasFile('image')) {
+            if ($baju->image) {
+                Storage::disk('public')->delete($baju->image);
+            }
             $path = $request->file('image')->store('produk', 'public');
+            $changes[] = "Gambar diperbarui";
+        } else {
+            $path = $baju->image;
         }
 
+        // Update data utama
         $baju->update([
             'nama' => $request->nama,
             'slug' => Str::slug($request->nama),
@@ -125,55 +126,67 @@ class ProdukController extends Controller
             'image' => $path,
         ]);
 
-        // Update data Stok
-        $sizes = explode(',', $request->ukuran);
-        $colors = explode(',', $request->warna);
+        // Update data stok
+        $sizes = array_map('trim', explode(',', $request->ukuran));
+        $colors = array_map('trim', explode(',', $request->warna));
 
-        // Hapus stok lama yang tidak ada dalam input baru
-        Stok::where('produk_id', $id)
-            ->whereNotIn('ukuran', $sizes)
-            ->delete();
-
-        Stok::where('produk_id', $id)
-            ->whereNotIn('warna', $colors)
-            ->delete();
+        // Hapus stok yang tidak ada di input baru
+        Stok::where('produk_id', $id)->whereNotIn('ukuran', $sizes)->delete();
+        Stok::where('produk_id', $id)->whereNotIn('warna', $colors)->delete();
 
         foreach ($sizes as $size) {
-            $size = trim($size);
             foreach ($colors as $color) {
-                $color = trim($color);
-                if ($size && $color) {
-                    $stok = Stok::where('produk_id', $baju->id)
-                                ->where('ukuran', $size)
-                                ->where('warna', $color)
-                                ->first();
+                if (!$size || !$color) continue;
 
-                    if ($stok) {
-                        $stok->update([
-                            'qty' => $request->input("qty_{$size}_{$color}") ?? 0,
-                            'harga' => $request->input("harga_{$size}_{$color}") ?? 0,
-                        ]);
-                    } else {
-                        Stok::create([
-                            'produk_id' => $baju->id,
-                            'ukuran' => $size,
-                            'warna' => $color,
-                            'qty' => $request->input("qty_{$size}_{$color}") ?? 0,
-                            'harga' => $request->input("harga_{$size}_{$color}") ?? 0,
-                        ]);
+                $qtyKey = "qty_{$size}_{$color}";
+                $hargaKey = "harga_{$size}_{$color}";
+
+                $newQty = (int) $request->input($qtyKey, 0);
+                $newHarga = (int) $request->input($hargaKey, 0);
+
+                $stok = Stok::where('produk_id', $baju->id)
+                            ->where('ukuran', $size)
+                            ->where('warna', $color)
+                            ->first();
+
+                if ($stok) {
+                    if ($stok->qty != $newQty) {
+                        $changes[] = "Qty untuk ukuran {$size} dan warna {$color} dari '{$stok->qty}' menjadi '{$newQty}'";
                     }
+                    if ($stok->harga != $newHarga) {
+                        $changes[] = "Harga untuk ukuran {$size} dan warna {$color} dari '{$stok->harga}' menjadi '{$newHarga}'";
+                    }
+
+                    $stok->update([
+                        'qty' => $newQty,
+                        'harga' => $newHarga,
+                    ]);
+                } else {
+                    Stok::create([
+                        'produk_id' => $baju->id,
+                        'ukuran' => $size,
+                        'warna' => $color,
+                        'qty' => $newQty,
+                        'harga' => $newHarga,
+                    ]);
+
+                    $changes[] = "Stok baru ditambahkan untuk ukuran {$size} dan warna {$color} (qty: {$newQty}, harga: {$newHarga})";
                 }
             }
         }
 
-        ProdukHistory::create([
-            'produk_id' => $baju->id,
-            'user_id' => Auth::id(),
-            'message' => implode(', ', $changes),
-        ]);
+        // Simpan riwayat jika ada perubahan
+        if (count($changes) > 0) {
+            ProdukHistory::create([
+                'produk_id' => $baju->id,
+                'user_id' => Auth::id(),
+                'message' => implode(', ', $changes),
+            ]);
+        }
 
         return redirect()->route('dashboard')->with('success', 'Produk berhasil diperbarui');
-    }
+}
+
 
     public function destroy($id)
     {
