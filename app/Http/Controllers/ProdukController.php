@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Storage;
 class ProdukController extends Controller
 {
     public function index() {
-        return view('produk.tambah-produk');
+        $baju = Baju::pluck('nama')->toArray();
+        // dd($baju);
+        return view('produk.tambah-produk', compact('baju'));
     }
 
     public function store(Request $request)
