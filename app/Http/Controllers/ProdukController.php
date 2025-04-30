@@ -79,7 +79,7 @@ class ProdukController extends Controller
     {
         $baju = Baju::findOrFail($id);
         $stok = Stok::where('produk_id', $id)->get();
-        
+
         return view('produk.edit-produk', compact('baju', 'stok'));
     }
 
@@ -187,11 +187,10 @@ class ProdukController extends Controller
         return redirect()->route('dashboard')->with('success', 'Produk berhasil diperbarui');
 }
 
-
     public function destroy($id)
     {
         $baju = Baju::findOrFail($id);
-        
+
         if ($baju->image) {
             Storage::disk('public')->delete($baju->image);
         }
