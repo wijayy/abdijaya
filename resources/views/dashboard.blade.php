@@ -1,24 +1,32 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             @if (session('success'))
-                <div class="bg-green-100 text-gray-700 p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
+            <div class="p-4 mb-4 text-gray-700 bg-green-100 rounded">
+                {{ session('success') }}
+            </div>
             @endif
             <div class="relative overflow-x-auto">
                 <a href="{{ route('produk.tambah') }}">
-                    <button class="bg-secondary text-white overflow-hidden font-bold sm:rounded-lg px-6 py-2 mb-4">
+                    <button class="px-6 py-2 mb-4 overflow-hidden font-bold text-white rounded-lg bg-secondary">
                         Tambah Produk
                     </button>
                 </a>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <form class="flex items-center rounded-lg">
+                    <input type="text" name="search" id="search" value="{{ request('search') }}" autocomplete="off"
+                        class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary sm:text-sm"
+                        placeholder="Cari produk">
+                    <button class="px-6 py-2 overflow-hidden font-bold text-white rounded-lg bg-secondary">
+                        Search
+                    </button>
+                </form>
+                <table class="w-full mt-4 text-sm text-left text-gray-500 rtl:text-right">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">
@@ -54,12 +62,17 @@
                                 {{ $produk->warna }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('produk.edit', $produk->id) }}" class="text-blue-600 hover:text-blue-900">Edit</a>
-                                <a href="{{ route('produk.show', $produk->id) }}" class="text-green-600 hover:text-green-900">| Detail |</a>
-                                <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('produk.edit', $produk->id) }}"
+                                    class="text-blue-600 hover:text-blue-900">Edit</a>
+                                <a href="{{ route('produk.show', $produk->id) }}"
+                                    class="text-green-600 hover:text-green-900">| Detail |</a>
+                                <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
+                                    style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')" class="text-red-600 hover:text-red-900">
+                                    <button type="submit"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"
+                                        class="text-red-600 hover:text-red-900">
                                         Hapus
                                     </button>
                                 </form>

@@ -17,7 +17,7 @@ class DashboardController extends Controller
     }
 
     public function dashboard() {
-        $produk = Baju::all();
+        $produk = Baju::latest()->filters(request(['search']))->get();
         return view('dashboard', ['produks' => $produk]);
     }
 }
